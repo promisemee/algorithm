@@ -1,25 +1,22 @@
 #include <iostream>
-#include <vector>
+
 using namespace std;
 
 int main(){
-	vector<int> v;
-	int N;
-	cin >> N;
-	int a;
+	int N, ans = 0;
+	scanf("%d", &N);
+	int input[N] = {0}, arr[N] = {0};
 	for(int i=0;i<N;i++){
-		cin >> a;
-		v.push_back(a);
+		scanf("%d", &input[i]);
 	}
-	int max = -1000;
-	int temp = 0;
-	for(int i=0;i<N;i++){
-		for(int j=i;j<N;j++){
-			temp += v[j];
-			if (max<temp) max = temp;
-			if (temp<0) break;
-		}
-		temp = 0;
+	arr[0] = input[0];
+	ans = arr[0];
+	for(int i=1;i<N;i++){
+		arr[i] = input[i];
+		if(input[i]+arr[i-1]>0)
+			arr[i] = max(arr[i], input[i]+arr[i-1]);
+		ans = max(ans, arr[i]);
 	}
-	cout << max <<"\n";
+
+	printf("%d\n", ans);
 }
