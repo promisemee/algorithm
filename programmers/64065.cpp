@@ -1,28 +1,48 @@
-#include <iostream>
+//튜플
+#include <string>
 #include <vector>
 #include <algorithm>
 
+#include <iostream>
+
 using namespace std;
 
-bool compare(vector<int> v1, vector<int> v2){
-	return v1.size() < v2.size();
+bool Compare(vector<int> a, vector<int> b){
+    return a.size() < b.size();
 }
 
-int main(){
-	vector<int> v = {2,1,3,4};
-	vector<int> array[4];
-	array[0] = {2,1,3};
-	array[1] = {2,1};
-	array[2] = {1,2,3,4};
-	array[3] = {2};
-
-	sort(array, array+4, compare);
-
-	for(int i=0;i<4;i++){
-		for(int j = 0;j<array[i].size();j++){
-			cout<<array[i][j];
-		}
-		cout<<"\n";
-	}
-
+vector<int> solution(string s) {
+    vector<int> answer, set;
+    vector<vector<int>> tuple;
+    string temp = "";
+    bool visited[100001] = {false};
+    
+    for(int i=0;i<s.size()-1;i++){
+        if(s[i]==',' && !temp.empty()){
+            set.push_back(atoi(temp.c_str()));
+            temp = "";
+        }else if(s[i]=='}'){
+            set.push_back(atoi(temp.c_str()));
+            temp = "";
+            tuple.push_back(set);
+            set.clear();
+        }else if(s[i]=='{') continue;
+        else if (isdigit(s[i])){
+            temp+=s[i];
+        }
+    }
+    
+    sort(tuple.begin(), tuple.end(), Compare);
+    
+    for(int i=0;i<tuple.size();i++){
+        for(int j=0;j<tuple[i].size();j++){
+            if(!visited[tuple[i][j]]){
+                answer.push_back(tuple[i][j]);
+                visited[tuple[i][j]] = true;
+            }
+        }
+        cout << endl;
+    }
+    
+    return answer;
 }
